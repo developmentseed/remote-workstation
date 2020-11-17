@@ -1,0 +1,23 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+"aws-cdk.core" = "*"
+"aws-cdk.aws-ec2" = "*"
+"aws-cdk.aws-ecs" = "*"
+flake8 = "*"
+black = "*"
+isort = "*"
+"aws-cdk.aws-ssm" = "*"
+boto3 = "*"
+requests = "*"
+
+[packages]
+
+[requires]
+python_version = "3.8"
+
+[pipenv]
+allow_prereleases = true
