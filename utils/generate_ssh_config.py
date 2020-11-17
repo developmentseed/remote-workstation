@@ -66,6 +66,7 @@ def find_previous_config_entry_and_replace_or_write_entry_if_not_present(
     else:
         with open(config_location, "a") as config_file:
             config_file.write(f"{ssh_config_entry}")
+    print(f"SSH config entry has been written to: {config_location}")
 
 
 def write_config_entry(ssh_config_entry: str, ssh_config_location: str = None):
