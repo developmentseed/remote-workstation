@@ -24,4 +24,12 @@ GeoprocessingWorkstationStack(
     public_ip=get_public_ip(),
 )
 
+for k, v in {
+    "Project": "geoprocessing-workstation",
+    "Owner": "DevelopmentSeed",
+    "Client": "N/A",
+    "Stack": os.environ.get("IDENTIFIER", "dev"),
+}.items():
+    core.Tags.of(app).add(k, v, apply_to_launched_instances=True)
+
 app.synth()
