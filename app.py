@@ -5,8 +5,8 @@ import os
 import requests
 from aws_cdk import core
 
-from geoprocessing_workstation.geoprocessing_workstation_stack import (
-    GeoprocessingWorkstationStack,
+from remote_workstation.remote_workstation_stack import (
+    RemoteWorkstationStack,
 )
 
 
@@ -17,15 +17,15 @@ def get_public_ip() -> str:
 app = core.App()
 
 identifier = os.environ.get("IDENTIFIER", "dev")
-GeoprocessingWorkstationStack(
+RemoteWorkstationStack(
     app,
-    f"geoprocessing-workstation-{identifier}",
+    f"remote-workstation-{identifier}",
     identifier=identifier,
     public_ip=get_public_ip(),
 )
 
 for k, v in {
-    "Project": "geoprocessing-workstation",
+    "Project": "remote-workstation",
     "Owner": "DevelopmentSeed",
     "Client": "N/A",
     "Stack": os.environ.get("IDENTIFIER", "dev"),

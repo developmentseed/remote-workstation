@@ -5,7 +5,7 @@ from aws_cdk import aws_ecs as ecs
 from aws_cdk import core
 
 
-class GeoprocessingWorkstationStack(core.Stack):
+class RemoteWorkstationStack(core.Stack):
     def __init__(
         self,
         scope: core.Construct,
@@ -22,7 +22,7 @@ class GeoprocessingWorkstationStack(core.Stack):
             self,
             f"cluster-{identifier}",
             vpc=vpc,
-            cluster_name=f"geoprocessing-cluster-{identifier}",
+            cluster_name=f"remote-cluster-{identifier}",
         )
 
         task_definition = ecs.FargateTaskDefinition(

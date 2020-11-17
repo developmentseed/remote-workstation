@@ -1,4 +1,4 @@
-# Geoprocessing Workstation ☁️🌎📦
+# Remote Workstation ☁️🌎📦
 
 This project aims to enable the deployment of a dockerised workstation that can be SSH'd into
 
@@ -8,6 +8,7 @@ This project aims to enable the deployment of a dockerised workstation that can 
 * [How this all works](#how-this-all-works)
 * [Customising the container image](#customising-the-container-image)
 * [Make commands](#make-commands)
+* [References](#references)
 
 # Dependencies
 
@@ -53,7 +54,7 @@ $ make deploy
 ## 5. SSH to your instance
 
 ```bash
-$ ssh geoprocessing-workstation-<value of IDENTIFIER>
+$ ssh remote-workstation-<value of IDENTIFIER>
 ```
 
 # With VS Code Remote SSH
@@ -70,7 +71,7 @@ With the plugin enabled, either open the actions menu in VS Code (MacOS is `CMD 
 
 ## 2. Connect to host
 
-You should now see a prompy with the contents of your SSH Config file (listing the hosts), you should see `geoprocessing-workstation-<IDENTIFIER>` - select that.
+You should now see a prompy with the contents of your SSH Config file (listing the hosts), you should see `remote-workstation-<IDENTIFIER>` - select that.
 
 ![Remote SSH hosts](./images/remote-ssh-hosts.png)
 
@@ -133,7 +134,7 @@ You can remove the `Dockerfile` that is currently in the `docker/` directory and
 
 ## The instance
 
-By default, the project deploys a container with `0.25 vCPU` and `0.5GB RAM` - These can be altered in `geoprocessing_workstation/geoprocessing_workstation_stack.py` in the `ecs.FargateTaskDefinition`. You can get more information about these mappings [here](https://docs.aws.amazon.com/cdk/api/latest/python/aws_cdk.aws_ecs/FargateTaskDefinition.html#aws_cdk.aws_ecs.FargateTaskDefinition)
+By default, the project deploys a container with `0.25 vCPU` and `0.5GB RAM` - These can be altered in `remote_workstation/remote_workstation_stack.py` in the `ecs.FargateTaskDefinition`. You can get more information about these mappings [here](https://docs.aws.amazon.com/cdk/api/latest/python/aws_cdk.aws_ecs/FargateTaskDefinition.html#aws_cdk.aws_ecs.FargateTaskDefinition)
 
 # Make commands
 
@@ -162,3 +163,9 @@ $ make destroy # This will run a cdk destroy and remove all the deployed infrast
 ```bash
 $ make ssh_config # This will generate the SSH config entry (only really useful if for some reason the Fargate instance is re-created)
 ```
+
+# References
+
+* [VS Code Remote SSH](https://code.visualstudio.com/docs/remote/ssh)
+* [9 Steps to SSH into an AWS Fargate managed container](https://medium.com/ci-t/9-steps-to-ssh-into-an-aws-fargate-managed-container-46c1d5f834e2)
+* [How do I retrieve the public IP for a fargate task using the CLI?](https://stackoverflow.com/questions/49354116/how-do-i-retrieve-the-public-ip-for-a-fargate-task-using-the-cli)
