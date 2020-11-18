@@ -71,7 +71,7 @@ With the plugin enabled, either open the actions menu in VS Code (MacOS is `CMD 
 
 ## 2. Connect to host
 
-You should now see a prompy with the contents of your SSH Config file (listing the hosts), you should see `remote-workstation-<IDENTIFIER>` - select that.
+You should now see a prompt with the contents of your SSH Config file (listing the hosts), you should see `remote-workstation-<IDENTIFIER>` - select that.
 
 ![Remote SSH hosts](./images/remote-ssh-hosts.png)
 

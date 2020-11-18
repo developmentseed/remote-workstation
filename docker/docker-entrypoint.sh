@@ -18,4 +18,4 @@ echo $SSH_PUBLIC_KEY > ${USER_SSH_KEYS_FOLDER}/authorized_keys
 unset SSH_PUBLIC_KEY
 
 # Start the SSH daemon.
-/usr/sbin/sshd -D
+/usr/sbin/sshd -D -e

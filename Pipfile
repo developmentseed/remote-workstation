@@ -13,6 +13,7 @@ isort = "*"
 "aws-cdk.aws-ssm" = "*"
 boto3 = "*"
 requests = "*"
+"aws-cdk.aws-logs" = "*"
 
 [packages]
 

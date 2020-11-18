@@ -2,6 +2,7 @@ import os
 
 from aws_cdk import aws_ec2 as ec2
 from aws_cdk import aws_ecs as ecs
+from aws_cdk import aws_logs as logs
 from aws_cdk import core
 
 
@@ -31,9 +32,15 @@ class RemoteWorkstationStack(core.Stack):
 
         container = ecs.ContainerImage.from_asset("docker")
 
+        log_driver = ecs.AwsLogDriver(
+            stream_prefix=f"remote-workstation/{identifier}",
+            log_retention=logs.RetentionDays.ONE_WEEK
+        )
+
         task_definition.add_container(
             f"container-definition-{identifier}",
             image=container,
+            logging=log_driver,
             environment={"SSH_PUBLIC_KEY": os.environ["SSH_PUBLIC_KEY"]},
         )
 

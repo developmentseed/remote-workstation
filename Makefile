@@ -1,4 +1,4 @@
-.PHONEY: lint format diff deploy destroy generate_ssh_config
+.PHONEY: lint format diff deploy destroy ssh_config
 
 lint:
 	PIPENV_DOTENV_LOCATION=.env pipenv run flake8 .
