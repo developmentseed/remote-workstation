@@ -36,13 +36,19 @@ $ ssh-keygen -b 2048 -t rsa -f <a-path-to-save-the-file-to> -q -N ""
 
 ## 3. Prepare .env file
 
-To perform some actions, this project requires a `.env` file to be present in the base of the project with some variables present. Your `.env` file should look like:
+To perform some actions, this project requires a `.env` file to be present in the base of the project with some variables present. You can copy the `.env.example` file and save/rename as `.env`
+
+Your `.env` file should look like:
 
 ```.env
-IDENTIFIER=<an example identifier for your deployment> # eg. my-dev
-SSH_PRIVATE_KEY_LOCATION="<path/to/the/private/key>" # You created this in Step 3
-SSH_PUBLIC_KEY="<the contents of your public key>" # You created this in Step 3
-SSH_CONFIG_LOCATION="<path/to/your/ssh/config/file>" # This is optional, if not provided, a config file will be created for you
+# an example identifier for your deployment, eg. my-dev
+IDENTIFIER=<my-dev> 
+# You created this in Step 3
+SSH_PRIVATE_KEY_LOCATION="<path/to/the/private/key>" 
+# You created this in Step 3
+SSH_PUBLIC_KEY="<the contents of your public key>" 
+# This is optional, if not provided, a config file will be created for you
+SSH_CONFIG_LOCATION="<path/to/your/ssh/config/file>" 
 ```
 
 ## 4. Deploy the instance
