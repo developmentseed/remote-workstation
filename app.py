@@ -23,9 +23,9 @@ RemoteWorkstationStack(
 )
 
 for k, v in {
-    "Project": "remote-workstation",
-    "Owner": "DevelopmentSeed",
-    "Client": "N/A",
+    "Project": os.environ.get("TAG_PROJECT", "remote-workstation"),
+    "Owner": os.environ.get("TAG_OWNER", "DevelopmentSeed"),
+    "Client": os.environ.get("TAG_CLIENT", "N/A"),
     "Stack": os.environ.get("IDENTIFIER", "dev"),
 }.items():
     core.Tags.of(app).add(k, v, apply_to_launched_instances=True)

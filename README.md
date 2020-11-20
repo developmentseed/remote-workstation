@@ -58,6 +58,9 @@ The variables recognised for this project are:
 | `CONTAINER_ECR_REPOSITORY`    	| `<The value of an ECR repository name, e.g. 'my-magical/repo'>`                  	| 🚫        	| N/A                                                                 	| The name of an ECR repository in the region and account you're deploying into - **Note**: See Customising the container image                                                   	|
 | `CONTAINER_DOCKER_REPOSITORY` 	| `<The value of an Dockerhub/other registry repo, e.g. 'docker/whalesay:latest'>` 	| 🚫        	| N/A                                                                 	| Must be public - Credentials are currently not supported within this project - **Note** : See Customising the container image                                                   	|
 | `CONTAINER_LOCAL_PATH`        	| `<path/to/your/Dockerfile/folder - not the file itself>`                          	| 🚫        	| N/A                                                                 	| The file used to build the image must be called Dockerfile - **Note** : See Customising the container image                                                                     	|
+| `TAG_PROJECT` | AWS Tag for Project | 🚫 |  "remote-workstation"  | Custom [AWS Tags](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) for tracking billing |
+| `TAG_OWNER` | AWS Tag for Owner | 🚫 |  "DevelopmentSeed"  | Custom [AWS Tags](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) for tracking billing |
+| `TAG_CLIENT` | AWS Tag for Client | 🚫 |  "N/A"  | Custom [AWS Tags](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) for tracking billing |
 
 ## 4. Deploy the instance
 
