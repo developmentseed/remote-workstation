@@ -64,7 +64,7 @@ class RemoteWorkstationStack(core.Stack):
                 description=f"SSH Access from {identifier}s Public IP",
             )
 
-    def get_ssh_public_key(self, public_keyfile):
+    def get_ssh_public_key(self, public_keyfile: str):
         with open(public_keyfile, "r") as reader: 
             return reader.readline()
 
