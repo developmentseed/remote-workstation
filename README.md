@@ -56,6 +56,7 @@ SSH_CONFIG_LOCATION="<path/to/your/ssh/config/file>"
 ```bash
 $ make deploy
 ```
+> Note: When you're done using don't forget to destroy (see make command guide below)
 
 ## 5. SSH to your instance
 
