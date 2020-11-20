@@ -39,11 +39,16 @@ $ ssh-keygen -b 2048 -t rsa -f <a-path-to-save-the-file-to> -q -N ""
 To perform some actions, this project requires a `.env` file to be present in the base of the project with some variables present. Your `.env` file should look like:
 
 ```.env
+# Required
+SSH_PRIVATE_KEY_LOCATION=<path/to/the/private/key> # You created this in Step 3
+SSH_PUBLIC_KEY=<the contents of your public key> # You created this in Step 3
+
+# Optional (Have defaults)
 AWS_PROFILE=<Your named AWS CLI profile> # If not provided, this will use the default credentials your CLI uses
-IDENTIFIER=<an example identifier for your deployment> # eg. my-dev
-SSH_PRIVATE_KEY_LOCATION="<path/to/the/private/key>" # You created this in Step 3
-SSH_PUBLIC_KEY="<the contents of your public key>" # You created this in Step 3
-SSH_CONFIG_LOCATION="<path/to/your/ssh/config/file>" # This is optional, if not provided, a config file will be created for you
+IDENTIFIER=<an example identifier for your deployment> # e.g my-dev, if not provided it defaults to dev
+SSH_CONFIG_LOCATION=<path/to/your/ssh/config/file> # If not provided, a config file will be created for you
+INSTANCE_CPU=<A value of 256/512/1024/2048/4096> # If not provided, this defaults to 256
+INSTANCE_MEMORY=<A value of 512/1024/2048/...increments of 1024 till 30720> # If not provided, this defaults to 512
 ```
 
 ## 4. Deploy the instance
@@ -135,7 +140,7 @@ You can remove the `Dockerfile` that is currently in the `docker/` directory and
 
 ## The instance
 
-By default, the project deploys a container with `0.25 vCPU` and `0.5GB RAM` - These can be altered in `remote_workstation/remote_workstation_stack.py` in the `ecs.FargateTaskDefinition`. You can get more information about these mappings [here](https://docs.aws.amazon.com/cdk/api/latest/python/aws_cdk.aws_ecs/FargateTaskDefinition.html#aws_cdk.aws_ecs.FargateTaskDefinition)
+By default, the project deploys a container with `0.25 vCPU` and `0.5GB RAM` - These can be altered by using `INSTANCE_CPU` and `INSTANCE_MEMORY` in your `.env` file. **NOTE**: CPU and Memory are tied, you can get more information about these mappings [here](https://docs.aws.amazon.com/cdk/api/latest/python/aws_cdk.aws_ecs/FargateTaskDefinition.html#aws_cdk.aws_ecs.FargateTaskDefinition)
 
 # Make commands
 

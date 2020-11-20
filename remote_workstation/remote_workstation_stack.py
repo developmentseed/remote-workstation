@@ -27,14 +27,17 @@ class RemoteWorkstationStack(core.Stack):
         )
 
         task_definition = ecs.FargateTaskDefinition(
-            self, f"fargate-task-definition-{identifier}", cpu=256, memory_limit_mib=512
+            self,
+            f"fargate-task-definition-{identifier}",
+            cpu=int(os.environ.get("INSTANCE_CPU", 256)),
+            memory_limit_mib=int(os.environ.get("INSTANCE_MEMORY", 512)),
         )
 
         container = ecs.ContainerImage.from_asset("docker")
 
         log_driver = ecs.AwsLogDriver(
             stream_prefix=f"remote-workstation/{identifier}",
-            log_retention=logs.RetentionDays.ONE_WEEK
+            log_retention=logs.RetentionDays.ONE_WEEK,
         )
 
         task_definition.add_container(
