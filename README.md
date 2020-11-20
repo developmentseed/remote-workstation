@@ -18,7 +18,7 @@ To be able to deploy your own workstation, you will need some prerequisites inst
 * Pipenv
 * NVM/Node
 * NPM
-* aws-cdk (via `npm install`)
+* aws-cdk (via `npm install`) - Installation instructions can be found [here](https://docs.aws.amazon.com/cdk/latest/guide/getting_started.html)
 
 # General usage
 
@@ -39,6 +39,7 @@ $ ssh-keygen -b 2048 -t rsa -f <a-path-to-save-the-file-to> -q -N ""
 To perform some actions, this project requires a `.env` file to be present in the base of the project with some variables present. Your `.env` file should look like:
 
 ```.env
+AWS_PROFILE=<Your named AWS CLI profile> # If not provided, this will use the default credentials your CLI uses
 IDENTIFIER=<an example identifier for your deployment> # eg. my-dev
 SSH_PRIVATE_KEY_LOCATION="<path/to/the/private/key>" # You created this in Step 3
 SSH_PUBLIC_KEY="<the contents of your public key>" # You created this in Step 3
