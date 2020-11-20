@@ -36,20 +36,28 @@ $ ssh-keygen -b 2048 -t rsa -f <a-path-to-save-the-file-to> -q -N ""
 
 ## 3. Prepare .env file
 
-To perform some actions, this project requires a `.env` file to be present in the base of the project with some variables present. Your `.env` file should look like:
+To perform some actions, this project requires a `.env` file to be present in the base of the project with some variables present, the inside of the `.env` file might look like:
 
 ```.env
-# Required
-SSH_PRIVATE_KEY_LOCATION=<path/to/the/private/key> # You created this in Step 3
-SSH_PUBLIC_KEY=<the contents of your public key> # You created this in Step 3
-
-# Optional (Have defaults)
-AWS_PROFILE=<Your named AWS CLI profile> # If not provided, this will use the default credentials your CLI uses
-IDENTIFIER=<an example identifier for your deployment> # e.g my-dev, if not provided it defaults to dev
-SSH_CONFIG_LOCATION=<path/to/your/ssh/config/file> # If not provided, a config file will be created for you
-INSTANCE_CPU=<A value of 256/512/1024/2048/4096> # If not provided, this defaults to 256
-INSTANCE_MEMORY=<A value of 512/1024/2048/...increments of 1024 till 30720> # If not provided, this defaults to 512
+SSH_PRIVATE_KEY_LOCATION="/home/me/ssh_key"
+SSH_PUBLIC_KEY="these are the contents of my public key"
+AWS_PROFILE="my-fave-aws-account"
 ```
+
+The variables recognised for this project are:
+
+| Variable                      	| Value(s)                                                                         	| Required 	| Default                                                             	| Description                                                                                                                                                                     	|
+|-------------------------------	|----------------------------------------------------------------------------------	|----------	|---------------------------------------------------------------------	|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------	|
+| `SSH_PRIVATE_KEY_LOCATION`    	| `<path/to/the/private/key>`                                                      	| ✅        	| N/A                                                                 	| You created this in Step 3                                                                                                                                                      	|
+| `SSH_PUBLIC_KEY`              	| `<The contents of your public key>`                                              	| ✅        	| N/A                                                                 	| You created this in Step 3                                                                                                                                                      	|
+| `AWS_PROFILE`                 	| `<Your named AWS CLI profile>`                                                   	| 🚫        	| default                                                             	| The AWS Profile to deploy to                                                                                                                                                    	|
+| `IDENTIFIER`                  	| `<An identifier for your deployment, e.g. 'my-dev'>`                             	| 🚫        	| dev                                                                 	| This is unique to your deployed stack                                                                                                                                           	|
+| `SSH_CONFIG_LOCATION`         	| `<path/to/your/ssh/config/file>`                                                 	| 🚫        	| No value will result in a .ssh/config file created in the repo root 	| The SSH Config file to add the remote workstations details to                                                                                                                   	|
+| `INSTANCE_CPU`                	| `<A value of 256/512/1024/2048/4096>`                                            	| 🚫        	| 256                                                                 	| See container CPU & Memory mappings [here](https://docs.aws.amazon.com/cdk/api/latest/python/aws_cdk.aws_ecs/FargateTaskDefinition.html#aws_cdk.aws_ecs.FargateTaskDefinition)  	|
+| `INSTANCE_MEMORY`             	| `<A value of 512/1024/2048/...increments of 1024 till 30720>`                    	| 🚫        	| 512                                                                 	| See container CPU & Memory mappings  [here](https://docs.aws.amazon.com/cdk/api/latest/python/aws_cdk.aws_ecs/FargateTaskDefinition.html#aws_cdk.aws_ecs.FargateTaskDefinition) 	|
+| `CONTAINER_ECR_REPOSITORY`    	| `<The value of an ECR repository name, e.g. 'my-magical/repo'>`                  	| 🚫        	| N/A                                                                 	| The name of an ECR repository in the region and account you're deploying into - **Note**: See Customising the container image                                                   	|
+| `CONTAINER_DOCKER_REPOSITORY` 	| `<The value of an Dockerhub/other registry repo, e.g. 'docker/whalesay:latest'>` 	| 🚫        	| N/A                                                                 	| Must be public - Credentials are currently not supported within this project - **Note** : See Customising the container image                                                   	|
+| `CONTAINER_LOCAL_PATH`        	| `<path/to/your/Dockerfile/folder - not the file itself>`                          	| 🚫        	| N/A                                                                 	| The file used to build the image must be called Dockerfile - **Note** : See Customising the container image                                                                     	|
 
 ## 4. Deploy the instance
 
@@ -137,6 +145,13 @@ To use this project, the only essential components to ensure a Docker image has 
 From then on, whatever you do with the container is up to you (Setting up users, workspaces, dependencies, etc.)
 
 You can remove the `Dockerfile` that is currently in the `docker/` directory and add your own, just make sure it does the same setup steps
+
+If you have a Docker Image or a `Dockerfile` elsewhere external to this project, we use a heirarchy of values from `.env` to get which image to use, the order is from top to bottom:
+
+* `CONTAINER_ECR_REPOSITORY` - Highest priority
+* `CONTAINER_DOCKER_REPOSITORY`
+* `CONTAINER_LOCAL_PATH`
+* None of the above - uses `/docker` in this repository
 
 ## The instance
 

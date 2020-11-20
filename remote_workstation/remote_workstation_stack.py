@@ -1,6 +1,7 @@
 import os
 
 from aws_cdk import aws_ec2 as ec2
+from aws_cdk import aws_ecr as ecr
 from aws_cdk import aws_ecs as ecs
 from aws_cdk import aws_logs as logs
 from aws_cdk import core
@@ -33,8 +34,6 @@ class RemoteWorkstationStack(core.Stack):
             memory_limit_mib=int(os.environ.get("INSTANCE_MEMORY", 512)),
         )
 
-        container = ecs.ContainerImage.from_asset("docker")
-
         log_driver = ecs.AwsLogDriver(
             stream_prefix=f"remote-workstation/{identifier}",
             log_retention=logs.RetentionDays.ONE_WEEK,
@@ -42,7 +41,7 @@ class RemoteWorkstationStack(core.Stack):
 
         task_definition.add_container(
             f"container-definition-{identifier}",
-            image=container,
+            image=self.get_docker_image(),
             logging=log_driver,
             environment={"SSH_PUBLIC_KEY": os.environ["SSH_PUBLIC_KEY"]},
         )
@@ -62,3 +61,15 @@ class RemoteWorkstationStack(core.Stack):
                 connection=ec2.Port.tcp(22),
                 description=f"SSH Access from {identifier}s Public IP",
             )
+
+    def get_docker_image(self) -> ecs.AssetImage:
+        if ecr_repo := os.environ.get("CONTAINER_ECR_REPOSITORY", None):
+            return ecs.ContainerImage.from_ecr_repository(
+                ecr.Repository.from_repository_name(ecr_repo)
+            )
+        elif docker_repo := os.environ.get("CONTAINER_DOCKER_REPOSITORY", None):
+            return ecs.ContainerImage.from_registry(docker_repo)
+        elif local_docker := os.environ.get("CONTAINER_LOCAL_PATH", None):
+            return ecs.ContainerImage.from_asset(local_docker)
+        else:
+            return ecs.ContainerImage.from_asset("docker")
