@@ -41,7 +41,7 @@ class RemoteWorkstationStack(core.Stack):
 
         task_definition.add_container(
             f"container-definition-{identifier}",
-            image=self.get_docker_image(),
+            image=self.get_docker_image(identifier),
             logging=log_driver,
             environment={"SSH_PUBLIC_KEY": os.environ["SSH_PUBLIC_KEY"]},
         )
@@ -62,10 +62,12 @@ class RemoteWorkstationStack(core.Stack):
                 description=f"SSH Access from {identifier}s Public IP",
             )
 
-    def get_docker_image(self) -> ecs.AssetImage:
+    def get_docker_image(self, identifier: str) -> ecs.AssetImage:
         if ecr_repo := os.environ.get("CONTAINER_ECR_REPOSITORY", None):
             return ecs.ContainerImage.from_ecr_repository(
-                ecr.Repository.from_repository_name(ecr_repo)
+                ecr.Repository.from_repository_name(
+                    self, id=f"ecr-repository-{identifier}", repository_name=ecr_repo
+                )
             )
         elif docker_repo := os.environ.get("CONTAINER_DOCKER_REPOSITORY", None):
             return ecs.ContainerImage.from_registry(docker_repo)
