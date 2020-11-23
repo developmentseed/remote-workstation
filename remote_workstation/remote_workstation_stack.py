@@ -27,8 +27,6 @@ class RemoteWorkstationStack(core.Stack):
             cluster_name=f"remote-cluster-{identifier}",
         )
 
-        self.public_key = self.get_ssh_public_key(os.environ["SSH_PUBLIC_KEY"])
-
         task_definition = ecs.FargateTaskDefinition(
             self,
             f"fargate-task-definition-{identifier}",
@@ -45,7 +43,7 @@ class RemoteWorkstationStack(core.Stack):
             f"container-definition-{identifier}",
             image=self.get_docker_image(identifier),
             logging=log_driver,
-            environment={"SSH_PUBLIC_KEY": self.public_key},
+            environment={"SSH_PUBLIC_KEY": self.get_ssh_public_key()},
         )
 
         fargate_service = ecs.FargateService(
@@ -64,8 +62,8 @@ class RemoteWorkstationStack(core.Stack):
                 description=f"SSH Access from {identifier}s Public IP",
             )
 
-    def get_ssh_public_key(self, public_keyfile: str) -> str:
-        with open(public_keyfile, "r") as reader: 
+    def get_ssh_public_key(self) -> str:
+        with open(os.environ["SSH_PUBLIC_KEY_LOCATION"], "r") as reader:
             return reader.readline()
 
     def get_docker_image(self, identifier: str) -> ecs.AssetImage:
