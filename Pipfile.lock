@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "7ff13d0f8e6b54487ce720298557c07f2eeacc5c4d2ee8c68e617f1867996f6f"
+            "sha256": "140edad40364a84de3c818b9486e5dc3b17df83d2b36f0b29a8e661d7312c531"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -369,18 +369,18 @@
         },
         "boto3": {
             "hashes": [
-                "sha256:066b9dfd466e42c206dbbd282da030a6d5cade4ef7e9f1c90a79ebde1310b217",
-                "sha256:bb8ecadd1c8dc8b27c72642567adcd910b2fc3c2fe95b5df3796b647dc47abb9"
+                "sha256:22a6f11383965d7ece9e391722b2989780960c62997b1aa464ffa1f886e1cfa8",
+                "sha256:6e6bd178f930309c2ec79643436aae5cf6f26d51e35aa5e58162675a04785e62"
             ],
             "index": "pypi",
-            "version": "==1.16.22"
+            "version": "==1.16.23"
         },
         "botocore": {
             "hashes": [
-                "sha256:5cee9d02d335a0c43d225da6595e6f95970a01ecaebeba757ac22130f2d31495",
-                "sha256:87d77925ea8d35898ff1627f6f97d396bed44d37fff960daae181a76ba413546"
+                "sha256:9f9efca44b2ab2d9c133ceeafa377e4b3d260310109284123ebfffc15e28481e",
+                "sha256:d73a223bf88d067c3ae0a9a3199abe56e99c94267da77d7fed4c39f572f522c0"
             ],
-            "version": "==1.19.22"
+            "version": "==1.19.23"
         },
         "cattrs": {
             "hashes": [
@@ -414,11 +414,11 @@
         },
         "constructs": {
             "hashes": [
-                "sha256:93a5e3b30898b588992388701fc04d6b5709ed4a7c32ef8c2270c08a7dbd1227",
-                "sha256:9e5c0ccaa98a1ad3c56db1f079242e0fda248a9caaac7422a205c650033096f7"
+                "sha256:0258c0b547b1eebe3f0feac4d9c704bc45bb1c1210ba469640dd89cfc33c00f3",
+                "sha256:22cee03bc244170840555676f74eb0fe2d93d43855eecb1a452fd6511127c18d"
             ],
             "markers": "python_version >= '3.6'",
-            "version": "==3.2.37"
+            "version": "==3.2.38"
         },
         "flake8": {
             "hashes": [
@@ -580,6 +580,13 @@
             ],
             "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3'",
             "version": "==1.15.0"
+        },
+        "stringcase": {
+            "hashes": [
+                "sha256:48a06980661908efe8d9d34eab2b6c13aefa2163b3ced26972902e3bdfd87008"
+            ],
+            "index": "pypi",
+            "version": "==1.2.0"
         },
         "toml": {
             "hashes": [

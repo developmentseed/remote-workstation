@@ -15,6 +15,7 @@ boto3 = "*"
 requests = "*"
 "aws-cdk.aws-logs" = "*"
 "aws-cdk.aws-ecr" = "*"
+stringcase = "*"
 
 [packages]
 
