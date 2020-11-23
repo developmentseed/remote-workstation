@@ -18,7 +18,18 @@ class RemoteWorkstationStack(core.Stack):
     ) -> None:
         super().__init__(scope, construct_id, **kwargs)
 
-        vpc = ec2.Vpc(self, f"vpc-{identifier}", max_azs=1)
+        vpc = ec2.Vpc(
+            self,
+            f"vpc-{identifier}",
+            max_azs=1,
+            subnet_configuration=[
+                ec2.SubnetConfiguration(
+                    name=f"public-subnet-{identifier}",
+                    subnet_type=ec2.SubnetType.PUBLIC,
+                    cidr_mask=28,
+                )
+            ],
+        )
 
         self.cluster = ecs.Cluster(
             self,
