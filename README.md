@@ -40,7 +40,7 @@ To perform some actions, this project requires a `.env` file to be present in th
 
 ```.env
 SSH_PRIVATE_KEY_LOCATION="/home/me/ssh_key"
-SSH_PUBLIC_KEY="these are the contents of my public key"
+SSH_PUBLIC_KEY_LOCATION="/home/me/ssh_key.pub"
 AWS_PROFILE="my-fave-aws-account"
 ```
 
@@ -141,6 +141,7 @@ The user runs `make deploy`, under the hood this does:
 To use this project, the only essential components to ensure a Docker image has are:
 
 * An SSH server ([`openssh-server`](https://ubuntu.com/server/docs/service-openssh))
+* `curl`
 * An entrypoint script (like `docker/docker-entrypoint.sh`) that takes the public key and adds it to the authorised keys area. It should also start the SSH daemon
 
 From then on, whatever you do with the container is up to you (Setting up users, workspaces, dependencies, etc.)
