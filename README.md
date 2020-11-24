@@ -104,12 +104,14 @@ Now that you have established a connection to the instance, you can open files/f
 ### Extensions
 Because VS Code Remote SSH bootstraps an VS Code server on the running instance, we can install any VS Code extension inside it, allowing us access to language support, enhanced debugging, and various other features.
 
-### Accessing services like Jupyter
-If your instance has a service like Jupyter Notebook installed, you can run this headless and then SSH Port Forward the port it's running on to localhost:
+### Port Forwarding
+If you're running a service that you'd like to access via `localhost` - say a webapp or a Jupyter Notebook, VS Code Remote SSH comes with SSH Port Forwarding built in.
 
+A very easy example is:
 ```bash
 # On the instance
-$ jupyter-notebook --no-browser --port=<a-port>
+$ echo "Hello Remote Workspace!" > index.html
+$ python -m http.server 8181
 ```
 
 When you then look at the Remote SSH pane, you'll see `Ports` which shows you which ports have services running on them in the instance, you can then select them to forward them on
@@ -118,7 +120,7 @@ When you then look at the Remote SSH pane, you'll see `Ports` which shows you wh
 
 Then you can access it on `localhost:<a-port>`:
 
-![Remote SSH Port Forwarding Jupyter](./images/remote-ssh-jupyter.png)
+![Remote SSH Port Forwarding index.html](./images/remote-ssh-index-html.png)
 
 # How this all works
 
