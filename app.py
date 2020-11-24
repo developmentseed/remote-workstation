@@ -4,10 +4,9 @@ import os
 
 import requests
 from aws_cdk import core
+from stringcase import pascalcase
 
-from remote_workstation.remote_workstation_stack import (
-    RemoteWorkstationStack,
-)
+from remote_workstation.remote_workstation_stack import RemoteWorkstationStack
 
 
 def get_public_ip() -> str:
@@ -24,12 +23,13 @@ RemoteWorkstationStack(
     public_ip=get_public_ip(),
 )
 
-for k, v in {
-    "Project": "remote-workstation",
-    "Owner": "DevelopmentSeed",
-    "Client": "N/A",
-    "Stack": os.environ.get("IDENTIFIER", "dev"),
-}.items():
+tags = [
+    (pascalcase(item[0].replace("TAGS_", "").lower()), item[1])
+    for item in os.environ.items()
+    if item[0].startswith("TAGS_")
+]
+
+for k, v in tags:
     core.Tags.of(app).add(k, v, apply_to_launched_instances=True)
 
 app.synth()
