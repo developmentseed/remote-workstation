@@ -90,7 +90,7 @@ You should now see a prompt with the contents of your SSH Config file (listing t
 
 ![Remote SSH hosts](./images/remote-ssh-hosts.png)
 
-_Note: You might not see your workstation here, this is usually the case if you A: do not have an SSH Host config file in the default location or B: didn't provide one and the deployment has generated you one in `.ssh/config` in the root of the repository._
+_**Note:** You might not see your workstation here, this is usually the case if you A: do not have an SSH Host config file in the default location or B: didn't provide one and the deployment has generated you one in `.ssh/config` in the root of the repository._
 
 _You can remedy this by selecting `Configure SSH Hosts...` and then `Settings` and providing the path to the non standard location_
 
@@ -104,12 +104,17 @@ Now that you have established a connection to the instance, you can open files/f
 ### Extensions
 Because VS Code Remote SSH bootstraps an VS Code server on the running instance, we can install any VS Code extension inside it, allowing us access to language support, enhanced debugging, and various other features.
 
-### Accessing services like Jupyter
-If your instance has a service like Jupyter Notebook installed, you can run this headless and then SSH Port Forward the port it's running on to localhost:
+### Port Forwarding
+If you're running a service that you'd like to access via `localhost` - say a webapp or a Jupyter Notebook, VS Code Remote SSH comes with SSH Port Forwarding built in.
 
+
+#### Simple example
+
+A very easy example you can peform on the `docker/Dockerfile` image is:
 ```bash
 # On the instance
-$ jupyter-notebook --no-browser --port=<a-port>
+$ echo "Hello Remote Workspace!" > index.html
+$ python -m http.server 8181
 ```
 
 When you then look at the Remote SSH pane, you'll see `Ports` which shows you which ports have services running on them in the instance, you can then select them to forward them on
@@ -118,7 +123,24 @@ When you then look at the Remote SSH pane, you'll see `Ports` which shows you wh
 
 Then you can access it on `localhost:<a-port>`:
 
-![Remote SSH Port Forwarding Jupyter](./images/remote-ssh-jupyter.png)
+![Remote SSH Port Forwarding index.html](./images/remote-ssh-index-html.png)
+
+_**Note:** you might also notice a prompt appear in VS Code asking if you'd like to visit the forwarded application, providing you a link to click on:_
+
+![Remote SSH Port Forwarding prompt](./images/remote-ssh-port-forwarding-prompt.png)
+
+#### Jupyter Example
+
+If your image has Jupyter Notebook installed (or if you run `pip3 install jupyter` on the provided `docker/Dockerfile`), you
+can setup port forwarding for a notebook instance:
+```bash
+# On the instance
+$ jupyter-notebook --no-browser --port=<a-port>
+```
+
+Similarly to the [Simple Example](#simple-example), you will see the port you provided appear in the `Ports` selection, you can then forward it, navigate to `localhost:<a-port>` and access your notebook!
+
+![Remote SSH Port Forwarding Jupyter Notebook](./images/remote-ssh-jupyter.png)
 
 # How this all works
 
