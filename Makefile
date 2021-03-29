@@ -1,22 +1,30 @@
-.PHONEY: lint format diff deploy destroy ssh_config
+.PHONEY: install install-dev lint format diff deploy destroy ssh_config
+
+install:
+	npm install
+	pipenv install
+
+install-dev:
+	npm install
+	pipenv install --dev
 
 lint:
-	pipenv run flake8 .
-	pipenv run isort --check-only --profile black .
-	pipenv run black --check --diff .
+	pipenv run flake8 cdk/ utils/
+	pipenv run isort --check-only --profile black cdk/ utils/
+	pipenv run black --check --diff cdk/ utils/
 
 format:
-	pipenv run isort --profile black .
-	pipenv run black .
+	pipenv run isort --profile black cdk/ utils/
+	pipenv run black cdk/ utils/
 
 diff:
-	pipenv run cdk diff || true
+	pipenv run npx cdk diff --app cdk/app.py || true
 
 deploy:
-	pipenv run cdk deploy --require-approval never && pipenv run python3 utils/generate_ssh_config.py
+	pipenv run npx cdk deploy --app cdk/app.py --require-approval never
 
 destroy:
-	pipenv run cdk destroy --force
+	pipenv run npx cdk destroy --app cdk/app.py --force
 
 ssh_config:
 	pipenv run python3 utils/generate_ssh_config.py
