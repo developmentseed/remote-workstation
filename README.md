@@ -1,4 +1,5 @@
-# Remote Workstation ☁️🌎📦
+# Remote Workstation ☁️🌎📦 ![CI Status](https://github.com/developmentseed/remote-workstation/.github/workflows/ci.yml/badge.svg)
+
 
 This project aims to enable the deployment of a dockerised workstation that can be SSH'd into
 
