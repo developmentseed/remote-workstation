@@ -48,15 +48,12 @@ $ ssh-keygen -b 2048 -t rsa -f <a-path-to-save-the-file-to> -q -N ""
 
 ## 3. Prepare .env file
 
-To perform some actions, this project requires a `.env` file to be present in the base of the project with some variables present, the inside of the `.env` file might look like:
+To perform some actions, this project requires a `.env` file to be present in the base of the project with some variables present.
 
-```.env
-SSH_PRIVATE_KEY_LOCATION="/home/me/ssh_key"
-SSH_PUBLIC_KEY_LOCATION="/home/me/ssh_key.pub"
-AWS_PROFILE="my-fave-aws-account"
-```
+An example `.env` file is provided: `example.env`, copy and rename this to `.env` and populate it with your own values.
 
-The variables recognised for this project are:
+Below is a table explaining the values we expect (and that can be used additionally) in your `.env` file:
+
 
 | Variable                      	| Value(s)                                                                         	| Required 	| Default                                                             	| Description                                                                                                                                                                     	|
 |-------------------------------	|----------------------------------------------------------------------------------	|----------	|---------------------------------------------------------------------	|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------	|
@@ -67,7 +64,7 @@ The variables recognised for this project are:
 | `SSH_CONFIG_LOCATION`         	| `<path/to/your/ssh/config/file>`                                                 	| 🚫        	| No value will result in a .ssh/config file created in the repo root 	| The SSH Config file to add the remote workstations details to                                                                                                                   	|
 | `INSTANCE_CPU`                	| `<A value of 256/512/1024/2048/4096>`                                            	| 🚫        	| 256                                                                 	| See container CPU & Memory mappings [here](https://docs.aws.amazon.com/cdk/api/latest/python/aws_cdk.aws_ecs/FargateTaskDefinition.html#aws_cdk.aws_ecs.FargateTaskDefinition)  	|
 | `INSTANCE_MEMORY`             	| `<A value of 512/1024/2048/...increments of 1024 till 30720>`                    	| 🚫        	| 512                                                                 	| See container CPU & Memory mappings  [here](https://docs.aws.amazon.com/cdk/api/latest/python/aws_cdk.aws_ecs/FargateTaskDefinition.html#aws_cdk.aws_ecs.FargateTaskDefinition) 	|
-| `CONTAINER_ECR_REPOSITORY`    	| `<The value of an ECR repository name, e.g. 'my-magical/repo'>`                  	| 🚫        	| N/A                                                                 	| The name of an ECR repository in the region and account you're deploying into - **Note**: See [Customising the container image](#customising-the-container-image)                                                   	|
+| `CONTAINER_ECR_REPOSITORY`    	| `<The value of an ECR repository name, e.g. 'my-magical-repo'>`                  	| 🚫        	| N/A                                                                 	| The name of an ECR repository in the region and account you're deploying into - **Note**: See [Customising the container image](#customising-the-container-image)                                                   	|
 | `CONTAINER_DOCKER_REPOSITORY` 	| `<The value of an Dockerhub/other registry repo, e.g. 'docker/whalesay:latest'>` 	| 🚫        	| N/A                                                                 	| Must be public - Credentials are currently not supported within this project - **Note** : See [Customising the container image](#customising-the-container-image)                                                   	|
 | `CONTAINER_LOCAL_PATH`        	| `<path/to/your/Dockerfile/folder - not the file itself>`                          	| 🚫        	| N/A                                                                 	| The file used to build the image must be called Dockerfile - **Note** : See [Customising the container image](#customising-the-container-image)                                                                     	|
 | `TAGS_<Any value>` | `<A value to assign to this tag>` | 🚫 |  N/A  | You can add as many tags as AWS allows. To add a tag, add an entry to your `.env` file like `TAGS_MY_COOL_TAG="thisiscool"` - Your AWS tag will be named with a Pascal case name like: `MyCoolTag` with the value you provided. You can read more about tags for AWS billing and tracking infrastructure [here](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)|
@@ -187,7 +184,7 @@ If you have a Docker Image or a `Dockerfile` elsewhere external to this project,
 * `CONTAINER_ECR_REPOSITORY` - Highest priority
 * `CONTAINER_DOCKER_REPOSITORY`
 * `CONTAINER_LOCAL_PATH`
-* None of the above - uses `/docker` in this repository
+* None of the above - uses `docker/` in this repository
 
 ## The instance
 
