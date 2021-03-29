@@ -265,4 +265,18 @@ dmypy.json
 
 .env
 cdk.out
-.ssh
+
+# Created by https://www.toptal.com/developers/gitignore/api/ssh
+# Edit at https://www.toptal.com/developers/gitignore?templates=ssh
+
+### SSH ###
+**/.ssh/id_*
+**/.ssh/*_id_*
+**/.ssh/known_hosts
+
+# End of https://www.toptal.com/developers/gitignore/api/ssh
+
+# Manually created SSH ignores
+
+**/.ssh
+**id_rsa*
