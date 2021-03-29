@@ -14,18 +14,30 @@ This project aims to enable the deployment of a dockerised workstation that can 
 
 To be able to deploy your own workstation, you will need some prerequisites installed:
 
-* Pyenv/Python3
-* Pipenv
-* NVM/Node
-* NPM
-* aws-cdk (via `npm install`) - Installation instructions can be found [here](https://docs.aws.amazon.com/cdk/latest/guide/getting_started.html)
+* Node 14 (We recommend using NVM [Node Version Manager](https://github.com/nvm-sh/nvm))
+* [AWS CDK](https://docs.aws.amazon.com/cdk/latest/guide/getting_started.html) - There is a `package.json` in the repository, it's recommended to run `npm install` in the repository root and make use of `npx <command>` rather than globally installing AWS CDK
+* Python 3.8.* (We recommend using [pyenv](https://github.com/pyenv/pyenv))
+* [pipenv](https://github.com/pypa/pipenv)
+* [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-welcome.html)
+* [Docker](https://docs.docker.com/get-docker/)
 
+If you're developing on MacOS, all of the above (apart from AWS CDK) can be installed using [homebrew](https://brew.sh/)
+
+If you're developing on Windows, we'd recommend using either [Git BASH](https://gitforwindows.org/) or [Windows Subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/install-win10)
 # General usage
 
-## 1. Install dev dependencies
+## 1. Install dependencies
+
+If you only intend on deploying the infrastructure _as is_, you can install only the dependencies required for deployment with:
 
 ```bash
-$ pipenv install -d
+$ make install
+```
+
+However, if you intend on developing on this project and making contributions, you can install _all_ deployment and development dependencies with:
+
+```bash
+$ make install-dev
 ```
 
 ## 2. Create an SSH keypair
@@ -55,9 +67,9 @@ The variables recognised for this project are:
 | `SSH_CONFIG_LOCATION`         	| `<path/to/your/ssh/config/file>`                                                 	| 🚫        	| No value will result in a .ssh/config file created in the repo root 	| The SSH Config file to add the remote workstations details to                                                                                                                   	|
 | `INSTANCE_CPU`                	| `<A value of 256/512/1024/2048/4096>`                                            	| 🚫        	| 256                                                                 	| See container CPU & Memory mappings [here](https://docs.aws.amazon.com/cdk/api/latest/python/aws_cdk.aws_ecs/FargateTaskDefinition.html#aws_cdk.aws_ecs.FargateTaskDefinition)  	|
 | `INSTANCE_MEMORY`             	| `<A value of 512/1024/2048/...increments of 1024 till 30720>`                    	| 🚫        	| 512                                                                 	| See container CPU & Memory mappings  [here](https://docs.aws.amazon.com/cdk/api/latest/python/aws_cdk.aws_ecs/FargateTaskDefinition.html#aws_cdk.aws_ecs.FargateTaskDefinition) 	|
-| `CONTAINER_ECR_REPOSITORY`    	| `<The value of an ECR repository name, e.g. 'my-magical/repo'>`                  	| 🚫        	| N/A                                                                 	| The name of an ECR repository in the region and account you're deploying into - **Note**: See Customising the container image                                                   	|
-| `CONTAINER_DOCKER_REPOSITORY` 	| `<The value of an Dockerhub/other registry repo, e.g. 'docker/whalesay:latest'>` 	| 🚫        	| N/A                                                                 	| Must be public - Credentials are currently not supported within this project - **Note** : See Customising the container image                                                   	|
-| `CONTAINER_LOCAL_PATH`        	| `<path/to/your/Dockerfile/folder - not the file itself>`                          	| 🚫        	| N/A                                                                 	| The file used to build the image must be called Dockerfile - **Note** : See Customising the container image                                                                     	|
+| `CONTAINER_ECR_REPOSITORY`    	| `<The value of an ECR repository name, e.g. 'my-magical/repo'>`                  	| 🚫        	| N/A                                                                 	| The name of an ECR repository in the region and account you're deploying into - **Note**: See [Customising the container image](#customising-the-container-image)                                                   	|
+| `CONTAINER_DOCKER_REPOSITORY` 	| `<The value of an Dockerhub/other registry repo, e.g. 'docker/whalesay:latest'>` 	| 🚫        	| N/A                                                                 	| Must be public - Credentials are currently not supported within this project - **Note** : See [Customising the container image](#customising-the-container-image)                                                   	|
+| `CONTAINER_LOCAL_PATH`        	| `<path/to/your/Dockerfile/folder - not the file itself>`                          	| 🚫        	| N/A                                                                 	| The file used to build the image must be called Dockerfile - **Note** : See [Customising the container image](#customising-the-container-image)                                                                     	|
 | `TAGS_<Any value>` | `<A value to assign to this tag>` | 🚫 |  N/A  | You can add as many tags as AWS allows. To add a tag, add an entry to your `.env` file like `TAGS_MY_COOL_TAG="thisiscool"` - Your AWS tag will be named with a Pascal case name like: `MyCoolTag` with the value you provided. You can read more about tags for AWS billing and tracking infrastructure [here](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)|
 
 ## 4. Deploy the instance
@@ -185,29 +197,37 @@ By default, the project deploys a container with `0.25 vCPU` and `0.5GB RAM` - T
 
 A `Makefile` is provided to abstract commonly used commands away for ease of use, a breakdown of the commands is:
 
-```bash
-$ make lint # This lints the python source with flake8, isort and black
-```
+**`make install`**
 
-```bash
-$ make format # This formats the python source with isort and black
-```
+> This will run `npm install` and `pipenv install` on the repo root, installing only the dependencies needed for a production deployment
 
-```bash
-$ make diff # This runs a cdk diff call, letting you know what changes would be made if you were to deploy the project
-```
+**`make install-dev`**
 
-```bash
-$ make deploy # This will run a cdk deploy and generate the SSH config entry
-```
+> This will run `npm install` and `pipenv install --dev` on the repo root, installing the dependencies needed for development of this project
 
-```bash
-$ make destroy # This will run a cdk destroy and remove all the deployed infrastructure
-```
+**`make lint`**
 
-```bash
-$ make ssh_config # This will generate the SSH config entry (only really useful if for some reason the Fargate instance is re-created)
-```
+> This will perform a dry run of `flake8`, `isort`, and `black` and let you know what issues were found
+
+**`make format`**
+
+> This will peform a run of `isort` and `black`, this **will** modify files if issues were found
+
+**`make diff`**
+
+> This will run a `cdk diff` using the contents of your `.env` file
+
+**`make deploy`**
+
+> This will run a `cdk deploy` using the contents of your `.env` file. The deployment is auto-approved, so **make sure** you know what you're changing with your deployment first! (Best to run `make diff` to check!)
+
+**`make destroy`**
+
+> This will run a `cdk destroy` using the contents of your `.env` file. The destroy is auto-approved, so **make sure** you know what you're destroying first!
+
+**`make ssh_config`**
+
+> This will generate the SSH config entry (only really useful if for some reason the Fargate instance is re-created)
 
 # References
 
