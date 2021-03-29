@@ -64,6 +64,7 @@ class RemoteWorkstationStack(core.Stack):
             cluster=self.cluster,
             desired_count=1,
             task_definition=task_definition,
+            propagate_tags=ecs.PropagatedTagSource.SERVICE,
         )
 
         for security_group in fargate_service.connections.security_groups:
