@@ -1,4 +1,4 @@
-.PHONEY: install install-dev lint format diff deploy destroy ssh_config
+.PHONEY: install install-dev lint format diff deploy destroy ssh-config ssh-to-instance
 
 install:
 	npm install
