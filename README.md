@@ -79,7 +79,7 @@ $ make deploy
 ## 5. SSH to your instance
 
 ```bash
-$ ssh remote-workstation-<value of IDENTIFIER>
+$ make ssh-to-instance
 ```
 
 # With VS Code Remote SSH
@@ -223,9 +223,13 @@ A `Makefile` is provided to abstract commonly used commands away for ease of use
 
 > This will run a `cdk destroy` using the contents of your `.env` file. The destroy is auto-approved, so **make sure** you know what you're destroying first!
 
-**`make ssh_config`**
+**`make ssh-config`**
 
 > This will generate the SSH config entry (only really useful if for some reason the Fargate instance is re-created)
+
+**`make ssh-to-instance`**
+
+> This will SSH to the instance, if the values of `SSH_CONFIG_LOCATION` and `IDENTIFIER` are not present in `.env`, the default values of `./.ssh/config` and `dev` will be used respectively
 
 # References
 
