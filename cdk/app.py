@@ -4,9 +4,8 @@ import os
 
 import requests
 from aws_cdk import core
+from remote_workstation_stack import RemoteWorkstationStack
 from stringcase import pascalcase
-
-from remote_workstation.remote_workstation_stack import RemoteWorkstationStack
 
 
 def get_public_ip() -> str:

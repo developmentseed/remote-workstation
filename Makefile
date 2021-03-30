@@ -1,22 +1,33 @@
-.PHONEY: lint format diff deploy destroy ssh_config
+.PHONEY: install install-dev lint format diff deploy destroy ssh-config ssh-to-instance
+
+install:
+	npm install
+	pipenv install
+
+install-dev:
+	npm install
+	pipenv install --dev
 
 lint:
-	PIPENV_DOTENV_LOCATION=.env pipenv run flake8 .
-	PIPENV_DOTENV_LOCATION=.env pipenv run isort --check-only --profile black .
-	PIPENV_DOTENV_LOCATION=.env pipenv run black --check --diff .
+	pipenv run flake8 cdk/ utils/
+	pipenv run isort --check-only --profile black cdk/ utils/
+	pipenv run black --check --diff cdk/ utils/
 
 format:
-	PIPENV_DOTENV_LOCATION=.env pipenv run isort --profile black .
-	PIPENV_DOTENV_LOCATION=.env pipenv run black .
+	pipenv run isort --profile black cdk/ utils/
+	pipenv run black cdk/ utils/
 
 diff:
-	PIPENV_DOTENV_LOCATION=.env pipenv run cdk diff || true
+	pipenv run npx cdk diff --app cdk/app.py || true
 
 deploy:
-	PIPENV_DOTENV_LOCATION=.env pipenv run cdk deploy --require-approval never && pipenv run python3 utils/generate_ssh_config.py
+	pipenv run npx cdk deploy --app cdk/app.py --require-approval never && pipenv run python3 utils/generate_ssh_config.py
 
 destroy:
-	PIPENV_DOTENV_LOCATION=.env pipenv run cdk destroy --force
+	pipenv run npx cdk destroy --app cdk/app.py --force
 
-ssh_config:
-	PIPENV_DOTENV_LOCATION=.env pipenv run python3 utils/generate_ssh_config.py
+ssh-config:
+	pipenv run python3 utils/generate_ssh_config.py
+
+ssh-to-instance:
+	source .env && ssh -F $${SSH_CONFIG_LOCATION:-./.ssh/config} remote-workstation-$${IDENTIFIER:-dev}
