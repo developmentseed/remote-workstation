@@ -9,15 +9,15 @@ jobs:
   linting:
     runs-on: ubuntu-18.04
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@ee0669bd1cc54295c223e0bb666b733df41de1c5 # v2
 
       - name: Set up Python 3.8.8
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@e9aba2c848f5ebd159c070c61ea2c4e2b122355e # v2
         with:
           python-version: 3.8.8
 
       - name: Install Pipenv
-        uses: dschep/install-pipenv-action@v1
+        uses: dschep/install-pipenv-action@aaac0310d5f4a052d150e5f490b44354e08fbb8c # v1
 
       - name: Get pipenv venv hashes
         id: hashes
@@ -25,7 +25,7 @@ jobs:
           echo "##[set-output name=root;]$(python -c 'import sys; import base64; import hashlib; print(base64.urlsafe_b64encode(hashlib.sha256(sys.argv[-1].encode()).digest()[:6]).decode()[:8])' $(pwd)/Pipfile)"
 
       - name: Setup root cache
-        uses: actions/cache@v2
+        uses: actions/cache@8492260343ad570701412c2f464a5877dc76bace # v2
         id: root-cache
         with:
           path: /home/runner/.local/share/virtualenvs/remote-workstation-${{ steps.hashes.outputs.root }}
